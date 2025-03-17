@@ -1,5 +1,5 @@
 package com.electrik.electrik_ecomm.enums;
 
-public enum roles {
+public enum Roles {
     ADMIN, USER
 }
