@@ -1,4 +1,4 @@
-package com.electrik.electrik_ecomm.excepcions;
+package com.electrik.electrik_ecomm.exceptions;
 
 public class MyException extends Exception {
 
