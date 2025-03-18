@@ -7,7 +7,6 @@ import lombok.Setter;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -44,6 +43,7 @@ public class Article {
     private String articleDescription;
 
     // Manufacturer associated with the article
+    @ManyToOne
     @JoinColumn(name = "factory_id", nullable = false)
     private Factory factory;
 }
