@@ -1,6 +1,5 @@
 package com.electrik.electrik_ecomm.services;
 
-import com.electrik.electrik_ecomm.ElectrikEcommApplication;
 import com.electrik.electrik_ecomm.entities.Article;
 import com.electrik.electrik_ecomm.entities.Factory;
 import com.electrik.electrik_ecomm.exceptions.MyException;

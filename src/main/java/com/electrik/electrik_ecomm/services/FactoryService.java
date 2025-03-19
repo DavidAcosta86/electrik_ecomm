@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.electrik.electrik_ecomm.repositories.ArticleRepository;
 import com.electrik.electrik_ecomm.repositories.FactoryRepository;
 
 import jakarta.transaction.Transactional;
@@ -18,13 +17,8 @@ import com.electrik.electrik_ecomm.entities.Factory;
 @Service
 public class FactoryService {
 
-    private final ArticleRepository articleRepository;
     @Autowired
     private FactoryRepository factoryRepository;
-
-    FactoryService(ArticleRepository articleRepository) {
-        this.articleRepository = articleRepository;
-    }
 
     @Transactional
     private void CreateFactory(String factoryName) throws MyException {

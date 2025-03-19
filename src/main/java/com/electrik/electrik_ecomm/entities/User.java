@@ -34,10 +34,28 @@ public class User {
     private String lastName;
 
     @Column(name = "password")
-    private String Name;
+    private String password;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Roles role;
+
+    public User() {
+        // No-argument constructor for JPA
+    }
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(UUID id, String name, String lastName, String email, String password, Roles role) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 
 }
