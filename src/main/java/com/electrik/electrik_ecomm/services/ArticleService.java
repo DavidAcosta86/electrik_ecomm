@@ -1,0 +1,111 @@
+package com.electrik.electrik_ecomm.services;
+
+import com.electrik.electrik_ecomm.ElectrikEcommApplication;
+import com.electrik.electrik_ecomm.entities.Article;
+import com.electrik.electrik_ecomm.entities.Factory;
+import com.electrik.electrik_ecomm.exceptions.MyException;
+import com.electrik.electrik_ecomm.repositories.ArticleRepository;
+import com.electrik.electrik_ecomm.repositories.FactoryRepository;
+
+import jakarta.transaction.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ArticleService {
+
+    @Autowired
+    private ArticleRepository articleRepository;
+    @Autowired
+    private FactoryRepository factoryRepository;
+
+    @Transactional
+    private void CreateArticle(String articleName, String articleDescription, UUID factory_id) throws MyException {
+
+        validateArticle(articleName, articleDescription, factory_id);
+        Factory factory = factoryRepository.getReferenceById(factory_id);
+        Article article = new Article();
+        article.setArticleName(articleName);
+        article.setArticleDescription(articleDescription);
+        article.setFactory(factory);
+
+        articleRepository.save(article);
+
+    }
+
+    @Transactional
+    private List<Article> ListAllArticles() throws MyException {
+        List<Article> articles = new ArrayList<>();
+        if (articles.isEmpty()) {
+            throw new MyException("There is no article in the Catalog!");
+        }
+        articles = articleRepository.findAll();
+        return articles;
+
+    }
+
+    @Transactional
+    private void EliminateArticle(UUID article_id) throws MyException {
+        Optional<Article> article = articleRepository.findById(article_id);
+        if (article.isEmpty()) {
+            throw new MyException("Article not found with ID: " + article_id);
+        } else {
+            articleRepository.delete(article.get());
+        }
+
+    }
+
+    @Transactional
+    private void ModifyArticle(UUID articleId, String articleName, String articleDescription, UUID factory_id)
+            throws MyException {
+        validateArticle(articleName, articleDescription, factory_id);
+        Optional<Article> articleToModify = articleRepository.findById(articleId);
+        Optional<Factory> factory = factoryRepository.findById(factory_id);
+
+        if (articleToModify.isEmpty()) {
+            throw new MyException("There is no article to modify with the  given Id ");
+
+        }
+
+        if (factory.isEmpty()) {
+            throw new MyException("Must be a valid Factory!");
+
+        }
+
+        Article article = articleToModify.get();
+        article.setArticleName(articleName);
+        article.setArticleDescription(articleDescription);
+        article.setFactory(factory.get());
+
+        articleRepository.save(article);
+
+    }
+
+    @Transactional
+    public Article getOne(UUID articleId) {
+        return articleRepository.findById(articleId).orElse(null);
+    }
+
+    public void validateArticle(String articleName, String articleDescription, UUID factory_id) throws MyException {
+
+        if ((articleName == null) || articleName.trim().isEmpty()) {
+            throw new MyException("The name cannot be a blank or a null");
+        }
+
+        if ((articleDescription == null) || articleDescription.trim().isEmpty()) {
+            throw new MyException("The description field  cannot  be a blank or a null");
+        }
+
+        if (factory_id == null) {
+            throw new MyException("The Factory Id cannot be null");
+
+        }
+
+    }
+}

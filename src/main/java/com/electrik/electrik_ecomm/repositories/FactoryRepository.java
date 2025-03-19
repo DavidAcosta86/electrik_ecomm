@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FactoryRepository extends JpaRepository<Factory, UUID> {
     Optional<Factory> findByFactoryName(String name);
+
+    Optional<Factory> findById(UUID id);
 }
