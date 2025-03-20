@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <h1>The House of Electricity</h1>
+      </nav>
+    </header>
+
+    <main>
+      <section class="form-container">
+        <h2>Login</h2>
+        <a href="userregister" class="btn"
+          >Don't have an account? Register here</a
+        >
+
+        <div th:if="${error}" class="error-message">
+          <p th:text="${error}"></p>
+        </div>
+
+        <form th:action="@{/loginprocess}" method="POST">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="username" required />
+
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required />
+
+          <button type="submit" class="btn">Login</button>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 The House of Electricity. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

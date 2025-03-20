@@ -15,6 +15,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.electrik.electrik_ecomm.entities.User;
+import com.electrik.electrik_ecomm.enums.Roles;
 import com.electrik.electrik_ecomm.exceptions.MyException;
 import com.electrik.electrik_ecomm.repositories.UserRepository;
 
@@ -28,7 +29,7 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Transactional
-    private void CreateUser(String email, String name, String LastName, String password, String password2)
+    public void CreateUser(String email, String name, String LastName, String password, String password2)
             throws MyException {
 
         ValidateUser(email, name, LastName, password, password2);
@@ -38,8 +39,47 @@ public class UserService implements UserDetailsService {
         newUser.setName(name);
         newUser.setLastName(LastName);
         newUser.setPassword(new BCryptPasswordEncoder().encode(password));
+        newUser.setRole(Roles.USER);
+        ;
 
         userRepository.save(newUser); // Save the new user to the repository
+    }
+
+    @Transactional
+    public void DeleteUser(String email) throws MyException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new MyException("User not found with email: " + email));
+        userRepository.delete(user);
+    }
+
+    @Transactional
+    public void ModifyUser(String email, String name, String lastName, String password, String password2)
+            throws MyException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new MyException("User not found with email: " + email));
+
+        if (name != null && !name.trim().isEmpty()) {
+            user.setName(name);
+        }
+        if (lastName != null && !lastName.trim().isEmpty()) {
+            user.setLastName(lastName);
+        }
+        if (password != null && !password.trim().isEmpty()) {
+            if (password2 == null || password2.trim().isEmpty()) {
+                throw new MyException("The password confirmation cannot be empty or null");
+            }
+            if (!password.equals(password2)) {
+                throw new MyException("The passwords do not match");
+            }
+            user.setPassword(new BCryptPasswordEncoder().encode(password));
+        }
+
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public List<User> ListUsers() {
+        return userRepository.findAll();
     }
 
     public void ValidateUser(String email, String name, String LastName, String password, String password2)

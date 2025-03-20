@@ -1,0 +1,276 @@
+/* General styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+/* Navbar */
+header {
+  background-color: #0056b3;
+  padding: 15px 0;
+  text-align: center;
+}
+
+nav h1 {
+  color: white;
+  margin: 0;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin: 0 15px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Welcome section */
+.welcome {
+  text-align: center;
+  margin: 50px 20px;
+}
+
+h2 {
+  color: #0056b3;
+}
+
+/* Buttons */
+.buttons {
+  margin-top: 20px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 25px;
+  margin: 10px;
+  text-decoration: none;
+  color: white;
+  background-color: #007bff;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.btn:hover {
+  background-color: #004b99;
+}
+
+.form-container {
+  max-width: 30%;
+  margin: 50px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+input {
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button.btn {
+  margin-top: 15px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+main {
+  min-height: 100%;
+  padding-bottom: 60px; /* Enough space so the footer doesn't cover the content */
+}
+
+.article-list-table {
+  width: 100%; /* Full width */
+  table-layout: auto; /* Adjust width according to content */
+  border-collapse: collapse; /* No space between borders */
+}
+
+.article-list-table th,
+.article-list-table td {
+  padding: 15px; /* More space for contents */
+  text-align: left;
+  border: 1px solid #ddd;
+  word-wrap: break-word; /* So long text fits in the cell */
+}
+
+.article-list-table th {
+  background-color: #f4f4f4; /* Light background for headers */
+  font-weight: bold;
+}
+
+.article-list-table td {
+  background-color: #fff; /* White background for cells */
+}
+
+/* Button adjustments */
+.article-list-table .btn {
+  padding: 8px 15px; /* Adjust button size */
+  text-decoration: none;
+  color: white;
+  background-color: #007bff; /* Keep original button color */
+  border-radius: 5px;
+  margin-right: 5px;
+  display: inline-block; /* Ensure buttons don't overlap */
+}
+
+.article-list-table .btn-edit {
+  background-color: #28a745; /* Green button for edit */
+}
+
+.article-list-table .btn-delete {
+  background-color: #dc3545; /* Red button for delete */
+}
+
+/* Ensure table has adequate width for columns */
+.article-list-table th:nth-child(1),
+.article-list-table td:nth-child(1) {
+  width: 10%; /* ID column */
+}
+
+.article-list-table th:nth-child(2),
+.article-list-table td:nth-child(2) {
+  width: 25%; /* Name column */
+}
+
+.article-list-table th:nth-child(3),
+.article-list-table td:nth-child(3) {
+  width: 35%; /* Description column */
+}
+
+.article-list-table th:nth-child(4),
+.article-list-table td:nth-child(4) {
+  width: 20%; /* Factory column */
+}
+
+.article-list-table th:nth-child(5),
+.article-list-table td:nth-child(5) {
+  width: 10%; /* Actions column */
+}
+
+/* Body style adjustments */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  padding: 20px;
+}
+
+/* Ensure footer stays at the bottom */
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+main {
+  min-height: 100%;
+  padding-bottom: 60px; /* Enough space for the footer */
+}
+
+footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  background-color: #0056b3;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+/* Factory List Specific Styles */
+.factory-list-table {
+  width: 100%;
+
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.factory-list-table th,
+.factory-list-table td {
+  padding: 1px;
+  border: 1px solid #ddd;
+}
+
+.factory-list-table th:first-child,
+.factory-list-table td:first-child {
+  width: fit-content;
+
+  white-space: nowrap;
+  align-self: auto;
+}
+
+.factory-list-table th:nth-child(2),
+.factory-list-table td:nth-child(2) {
+  text-align: center;
+  width: 100%;
+}
+
+.factory-list-table td:last-child {
+  white-space: nowrap;
+  width: 1%;
+}
+
+.factory-list-table .btn {
+  display: inline-block;
+  margin: 0 3px;
+  padding: 6px 12px;
+}
+
+.factory-list-table .btn-edit {
+  background-color: #28a745;
+}
+
+.factory-list-table .btn-edit:hover {
+  background-color: #218838;
+}
+
+.factory-list-table .btn-delete {
+  background-color: #dc3545;
+}
+
+.factory-list-table .btn-delete:hover {
+  background-color: #c82333;
+}
+
+.factory-list-table form {
+  display: inline-block;
+  margin: 0;
+}

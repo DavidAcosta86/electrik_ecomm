@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Article Management</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body class="article-list">
+    <!-- Navbar -->
+    <header>
+      <nav>
+        <h1>The House of Electricity</h1>
+      </nav>
+    </header>
+
+    <main class="main-article-list">
+      <section class="form-container">
+        <h2>Article Management</h2>
+
+        <!-- Success or error messages -->
+        <div class="alert alert-success" id="success" style="display: none">
+          Operation successful!
+        </div>
+        <div class="alert alert-danger" id="error" style="display: none">
+          There was an error!
+        </div>
+
+        <a href="#" class="btn">New Article</a>
+
+        <!-- Table to display articles -->
+        <table class="table article-list-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Factory</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Article ABC</td>
+              <td>Description of article ABC</td>
+              <td>Factory XYZ</td>
+              <td>
+                <a href="#" class="btn btn-edit">
+                  <i class="fas fa-edit"></i> Edit
+                </a>
+                <form action="#" method="POST" style="display: inline">
+                  <button
+                    type="submit"
+                    class="btn btn-delete"
+                    onclick="return confirm('Are you sure?')"
+                  >
+                    <i class="fas fa-trash-alt"></i> Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Article XYZ</td>
+              <td>Description of article XYZ</td>
+              <td>Factory ABC</td>
+              <td>
+                <a href="#" class="btn btn-edit">
+                  <i class="fas fa-edit"></i> Edit
+                </a>
+                <form action="#" method="POST" style="display: inline">
+                  <button
+                    type="submit"
+                    class="btn btn-delete"
+                    onclick="return confirm('Are you sure?')"
+                  >
+                    <i class="fas fa-trash-alt"></i> Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 The House of Electricity. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

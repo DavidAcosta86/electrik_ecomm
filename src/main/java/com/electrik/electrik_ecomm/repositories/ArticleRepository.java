@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, UUID> {
 
+    // @Query ("SELECT COALESCE(MAX(a.id), 0) FROM Articulo a")
+    // public integer findMaxArticle;
 }

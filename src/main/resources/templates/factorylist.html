@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Registration</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <!-- For icons -->
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header>
+      <nav>
+        <h1>The House of Electricity</h1>
+        <a href="/start" class="btn">Panel</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="form-container">
+        <h2>Factory Management</h2>
+
+        <!-- Success or error messages (you can use it later with backend if necessary) -->
+        <div class="alert alert-success" id="exito" style="display: none">
+          Operation successful!
+        </div>
+        <div class="alert alert-danger" id="error" style="display: none">
+          There was an error!
+        </div>
+
+        <a href="registration" class="btn">New Factory</a>
+
+        <!-- Table to display factories -->
+        <table class="factory-list-table">
+          <thead>
+            <tr>
+              <!-- <th>ID</th> to show ID -->
+              <th>Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody th:each="factory : ${factories}">
+            <tr>
+              <!-- <td th:text="${factory.id}"></td>  to show the id-->
+              <td
+                style="font-size: larger"
+                align="left"
+                th:text="${factory.factoryName}"
+              ></td>
+              <td>
+                <!-- Edit icon -->
+                <a href="#" class="btn btn-edit">
+                  <i class="fas fa-edit"></i> Edit
+                </a>
+                <!-- Form to delete -->
+                <form action="#" method="POST">
+                  <button
+                    type="submit"
+                    class="btn btn-delete"
+                    onclick="return confirm('Are you sure?')"
+                  >
+                    <i class="fas fa-trash-alt"></i> Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>

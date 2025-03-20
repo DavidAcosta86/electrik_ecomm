@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Registration</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <h1>The House of Electricity</h1>
+      </nav>
+    </header>
+
+    <main>
+      <section class="form-container">
+        <h2>Factory Registration</h2>
+
+        <div th:if="${success}" class="success-message">
+          <p th:text="${success}"></p>
+        </div>
+
+        <div th:if="${error}" class="error-message">
+          <p th:text="${error}"></p>
+        </div>
+
+        <form th:action="@{/factory/register}" method="POST">
+          <label for="factoryName">Factory Name:</label>
+          <input type="text" id="factoryName" name="factoryName" required />
+
+          <button type="submit" class="btn">Register</button>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 The House of Electricity. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

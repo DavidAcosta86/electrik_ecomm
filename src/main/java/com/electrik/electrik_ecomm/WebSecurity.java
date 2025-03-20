@@ -1,37 +1,55 @@
 package com.electrik.electrik_ecomm;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import com.electrik.electrik_ecomm.services.UserService;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebSecurity
 public class WebSecurity {
 
-    private final UserService userService;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final UserDetailsService userService;
 
-    // Constructor injection for better practices
-    public WebSecurity(UserService userService, BCryptPasswordEncoder passwordEncoder) {
+    public WebSecurity(UserDetailsService userService) {
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
     }
 
-    // Define password encoder as a bean
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Configure global authentication with injected BCryptPasswordEncoder
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService)
-                .passwordEncoder(passwordEncoder); // Use the injected password encoder
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
+                        .requestMatchers("/", "/login", "/registro", "/registrar", "/index", "/loginprocess",
+                                "/userregister")
+                        .permitAll()
+                        .anyRequest().authenticated())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/loginprocess")
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+                        .defaultSuccessUrl("/start", true)
+                        .failureUrl("/login?error=true")
+                        .permitAll())
+                .userDetailsService(userService)
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/login")
+                        .permitAll());
+        return http.build();
     }
 }

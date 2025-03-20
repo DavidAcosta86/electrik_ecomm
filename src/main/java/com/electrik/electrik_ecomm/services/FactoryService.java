@@ -21,7 +21,7 @@ public class FactoryService {
     private FactoryRepository factoryRepository;
 
     @Transactional
-    private void CreateFactory(String factoryName) throws MyException {
+    public void CreateFactory(String factoryName) throws MyException {
         validateFactoryName(factoryName);
         Factory factory = new Factory();
         factory.setFactoryName(factoryName);
@@ -30,7 +30,7 @@ public class FactoryService {
     }
 
     @Transactional
-    private void ModifyFactory(String factoryName) throws MyException {
+    public void ModifyFactory(String factoryName) throws MyException {
         validateFactoryName(factoryName);
         Factory factory = factoryRepository.findByFactoryName(factoryName)
                 .orElseThrow(() -> new MyException("Factory with name " + factoryName + " does not exist")); // Handles
@@ -42,7 +42,7 @@ public class FactoryService {
     }
 
     @Transactional
-    private List<Factory> ListAllFactories() throws MyException {
+    public List<Factory> ListAllFactories() throws MyException {
 
         if (factoryRepository.count() == 0) {
             throw new MyException("No factories found in the system");
@@ -54,7 +54,7 @@ public class FactoryService {
     }
 
     @Transactional
-    private void DeleteFactory(UUID id) throws MyException {
+    public void DeleteFactory(UUID id) throws MyException {
         Optional<Factory> factory = factoryRepository.findById(id);
         if (factory.isPresent()) {
             factoryRepository.delete(factory.get());
@@ -64,14 +64,13 @@ public class FactoryService {
     }
 
     @Transactional
-    public void validateFactoryName(String factoryName) throws MyException {
+    private void validateFactoryName(String factoryName) throws MyException {
         if (factoryName == null || factoryName.isEmpty()) {
             throw new MyException("Factory name cannot be null or empty");
         }
-        if (factoryRepository.findByFactoryName(factoryName) != null) {
+        if (factoryRepository.findByFactoryName(factoryName).isPresent()) { // Cambiar a .isPresent()
             throw new MyException("Factory with name " + factoryName + " already exists!!!");
         }
-
     }
 
     @Transactional
