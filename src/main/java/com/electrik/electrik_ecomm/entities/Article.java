@@ -21,18 +21,16 @@ import jakarta.persistence.ManyToOne;
 @NoArgsConstructor
 public class Article {
 
-    // Internal unique sequential identification code for each article
-    private static final AtomicInteger atomicInteger = new AtomicInteger(1);
-
     // Auto-generated unique identifier for the article
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "article_id")
     private UUID articleId;
 
-    // Internal unique sequential identification code for each article
+    // Internal unique sequential identification code for each article, an atomic
+    // integer is created in the service
     @Column(name = "article_number")
-    private Integer articleNumber = atomicInteger.incrementAndGet();
+    private Integer articleNumber;
 
     // Name of the article (Required field)
     @Column(nullable = false)

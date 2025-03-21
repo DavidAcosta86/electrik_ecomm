@@ -30,14 +30,14 @@ public class FactoryService {
     }
 
     @Transactional
-    public void ModifyFactory(String factoryName) throws MyException {
+    public void ModifyFactory(UUID id, String factoryName) throws MyException {
         validateFactoryName(factoryName);
-        Factory factory = factoryRepository.findByFactoryName(factoryName)
-                .orElseThrow(() -> new MyException("Factory with name " + factoryName + " does not exist")); // Handles
-                                                                                                             // the case
-                                                                                                             // of an
-                                                                                                             // unwanted
-                                                                                                             // modification
+        Factory factory = factoryRepository.findById(id).get();
+        if (factory == null) {
+            throw new MyException("factoty does not exist");
+        }
+
+        factory.setFactoryName(factoryName);
         factoryRepository.save(factory);
     }
 

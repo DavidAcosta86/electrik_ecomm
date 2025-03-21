@@ -25,11 +25,22 @@
           <p th:text="${error}"></p>
         </div>
 
-        <form th:action="@{/factory/register}" method="POST">
-          <label for="factoryName">Factory Name:</label>
-          <input type="text" id="factoryName" name="factoryName" required />
+        <form
+          th:action="@{/factory/modify/{id}(id=${factory.id})}"
+          method="post"
+        >
+          <input type="hidden" th:value="${factory.id}" name="id" />
 
-          <button type="submit" class="btn">Register</button>
+          <label for="factoryName">Factory Name:</label>
+          <input
+            type="text"
+            id="factoryName"
+            name="factoryName"
+            th:value="${factory.factoryName}"
+            required
+          />
+
+          <button type="submit" class="btn">Modify</button>
           <a th:href="@{/articles}" class="btn btn-secondary">Cancel</a>
         </form>
       </section>

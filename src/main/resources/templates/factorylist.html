@@ -32,7 +32,7 @@
           There was an error!
         </div>
 
-        <a href="registration" class="btn">New Factory</a>
+        <a th:href="@{/factory/registration}" class="btn">New Factory</a>
 
         <!-- Table to display factories -->
         <table class="factory-list-table">
@@ -53,11 +53,17 @@
               ></td>
               <td>
                 <!-- Edit icon -->
-                <a href="#" class="btn btn-edit">
+                <a
+                  th:href="@{/factory/modify/__${factory.id}__}"
+                  class="btn btn-edit"
+                >
                   <i class="fas fa-edit"></i> Edit
                 </a>
                 <!-- Form to delete -->
-                <form action="#" method="POST">
+                <form
+                  th:action="@{/factory/delete/{id}(id=${factory.id})}"
+                  method="POST"
+                >
                   <button
                     type="submit"
                     class="btn btn-delete"

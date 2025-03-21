@@ -25,9 +25,29 @@
           <p th:text="${error}"></p>
         </div>
 
-        <form th:action="@{/factory/register}" method="POST">
-          <label for="factoryName">Factory Name:</label>
-          <input type="text" id="factoryName" name="factoryName" required />
+        <form th:action="@{/article/create}" method="POST">
+          <label for="articleName">Article Name:</label>
+          <input type="text" id="articleName" name="articleName" required />
+
+          <label for="articleDescription">Article Description:</label>
+          <input
+            type="text"
+            id="articleDescription"
+            name="articleDescription"
+            required
+          />
+
+          <div class="form-group my-3">
+            <select name="factory_id">
+              <option value="">Select Factory</option>
+              <!-- agregamos la línea para intectar la lista almacenada en el modelo -->
+              <option
+                th:each="factory : ${factories}"
+                th:value="${factory.id}"
+                th:text="${factory.factoryName}"
+              ></option>
+            </select>
+          </div>
 
           <button type="submit" class="btn">Register</button>
           <a th:href="@{/articles}" class="btn btn-secondary">Cancel</a>

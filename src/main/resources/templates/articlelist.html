@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,7 +14,7 @@
     <!-- Navbar -->
     <header>
       <nav>
-        <h1>The House of Electricity</h1>
+        <h1>Electri-K</h1>
       </nav>
     </header>
 
@@ -30,50 +30,34 @@
           There was an error!
         </div>
 
-        <a href="#" class="btn">New Article</a>
+        <a th:href="@{/article/create}" class="btn">New Article</a>
 
         <!-- Table to display articles -->
         <table class="table article-list-table">
           <thead>
             <tr>
-              <th>ID</th>
+              <!-- <th>ID</th> -->
+              <th>Number</th>
               <th>Name</th>
               <th>Description</th>
               <th>Factory</th>
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody th:each="article : ${articles}">
             <tr>
-              <td>1</td>
-              <td>Article ABC</td>
-              <td>Description of article ABC</td>
-              <td>Factory XYZ</td>
+              <td th:text="${article.articleNumber}"></td>
+              <td th:text="${article.articleName}"></td>
+              <td th:text="${article.articleDescription}"></td>
+              <td th:text="${article.factory.factoryName}"></td>
               <td>
                 <a href="#" class="btn btn-edit">
                   <i class="fas fa-edit"></i> Edit
                 </a>
-                <form action="#" method="POST" style="display: inline">
-                  <button
-                    type="submit"
-                    class="btn btn-delete"
-                    onclick="return confirm('Are you sure?')"
-                  >
-                    <i class="fas fa-trash-alt"></i> Delete
-                  </button>
-                </form>
-              </td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Article XYZ</td>
-              <td>Description of article XYZ</td>
-              <td>Factory ABC</td>
-              <td>
-                <a href="#" class="btn btn-edit">
-                  <i class="fas fa-edit"></i> Edit
-                </a>
-                <form action="#" method="POST" style="display: inline">
+                <form
+                  th:action="@{/article/delete/{id}(id=${article.id})}"
+                  method="POST"
+                >
                   <button
                     type="submit"
                     class="btn btn-delete"
