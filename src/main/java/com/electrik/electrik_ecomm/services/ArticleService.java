@@ -60,12 +60,17 @@ public class ArticleService {
     }
 
     @Transactional
+    public List<Article> ListAllArticlesOrderByNumber() {
+        return articleRepository.findAllByOrderByArticleNumberAsc();
+    }
+
+    @Transactional
     public void EliminateArticle(UUID article_id) throws MyException {
         Optional<Article> article = articleRepository.findById(article_id);
-        if (article.isEmpty()) {
-            throw new MyException("Article not found with ID: " + article_id);
-        } else {
+        if (article.isPresent()) {
             articleRepository.delete(article.get());
+        } else {
+            throw new MyException("Article not found with ID: " + article_id);
         }
 
     }

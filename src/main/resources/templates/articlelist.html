@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Article Management</title>
-    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
@@ -33,43 +33,57 @@
         <a th:href="@{/article/create}" class="btn">New Article</a>
 
         <!-- Table to display articles -->
-        <table class="table article-list-table">
-          <thead>
-            <tr>
-              <!-- <th>ID</th> -->
-              <th>Number</th>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Factory</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody th:each="article : ${articles}">
-            <tr>
-              <td th:text="${article.articleNumber}"></td>
-              <td th:text="${article.articleName}"></td>
-              <td th:text="${article.articleDescription}"></td>
-              <td th:text="${article.factory.factoryName}"></td>
-              <td>
-                <a href="#" class="btn btn-edit">
-                  <i class="fas fa-edit"></i> Edit
-                </a>
-                <form
-                  th:action="@{/article/delete/{id}(id=${article.id})}"
-                  method="POST"
-                >
-                  <button
-                    type="submit"
-                    class="btn btn-delete"
-                    onclick="return confirm('Are you sure?')"
+        <div th:if="${not #lists.isEmpty(articles)}">
+          <table
+            th:if="${not #lists.isEmpty(articles)}"
+            class="table article-list-table"
+          >
+            <thead>
+              <tr>
+                <!-- <th>ID</th> -->
+                <th>Number</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Factory</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="article : ${articles}">
+                <td th:text="${article.articleNumber}"></td>
+                <td th:text="${article.articleName}"></td>
+                <td th:text="${article.articleDescription}"></td>
+                <td th:text="${article.factory.factoryName}"></td>
+                <td>
+                  <a
+                    th:href="@{/article/modify/{id}(id=${article.articleId})}"
+                    class="btn btn-edit"
                   >
-                    <i class="fas fa-trash-alt"></i> Delete
-                  </button>
-                </form>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                    <i class="fas fa-edit"></i> Edit
+                  </a>
+                  <form
+                    th:action="@{/article/delete/{id}(id=${article.articleId})}"
+                    method="POST"
+                  >
+                    <button
+                      type="submit"
+                      class="btn btn-delete"
+                      onclick="return confirm('Are you sure?')"
+                    >
+                      <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div th:if="${#lists.isEmpty(articles)}" class="empty-state">
+          <p>
+            No articles found. Click the button above to add your first article.
+          </p>
+        </div>
+        <a th:href="@{/start}" class="btn">Back</a>
       </section>
     </main>
 

@@ -10,13 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.electrik.electrik_ecomm.exceptions.MyException;
 import com.electrik.electrik_ecomm.services.FactoryService;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("/factory")
@@ -81,7 +79,7 @@ public class FactoryController {
             model.addAttribute("factories", factoryService.ListAllFactories());
 
         } catch (MyException e) {
-            // TODO: handle exception
+
         }
         return "factorylist";
     }

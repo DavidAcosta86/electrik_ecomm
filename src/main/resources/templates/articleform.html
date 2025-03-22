@@ -9,13 +9,13 @@
   <body>
     <header>
       <nav>
-        <h1>The House of Electricity</h1>
+        <h1>Electri-K</h1>
       </nav>
     </header>
 
     <main>
       <section class="form-container">
-        <h2>Factory Registration</h2>
+        <h2>Article registration</h2>
 
         <div th:if="${success}" class="success-message">
           <p th:text="${success}"></p>
@@ -40,7 +40,6 @@
           <div class="form-group my-3">
             <select name="factory_id">
               <option value="">Select Factory</option>
-              <!-- agregamos la línea para intectar la lista almacenada en el modelo -->
               <option
                 th:each="factory : ${factories}"
                 th:value="${factory.id}"
@@ -50,13 +49,13 @@
           </div>
 
           <button type="submit" class="btn">Register</button>
-          <a th:href="@{/articles}" class="btn btn-secondary">Cancel</a>
+          <a th:href="@{/article/list}" class="btn btn-secondary">Cancel</a>
         </form>
       </section>
     </main>
 
     <footer>
-      <p>&copy; 2025 The House of Electricity. All rights reserved.</p>
+      <p>&copy; 2025 ChipocludApps. All rights reserved.</p>
     </footer>
   </body>
 </html>
