@@ -10,38 +10,38 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
   </head>
-  <body class="article-list">
-    <!-- Navbar -->
+  <body>
     <header>
       <nav>
-        <h1>Electri-K</h1>
+        <h1>Electri-k</h1>
         <a href="/start" class="btn">Panel</a>
       </nav>
     </header>
 
-    <main class="main-article-list">
-      <section class="form-container">
+    <main>
+      <section class="list-container">
         <h2>Article Management</h2>
 
-        <!-- Success or error messages -->
-        <div class="alert alert-success" id="success" style="display: none">
-          Operation successful!
-        </div>
-        <div class="alert alert-danger" id="error" style="display: none">
-          There was an error!
+        <!-- Verificar si hay fábricas para mostrar el botón de nuevo artículo -->
+        <div th:if="${#lists.isEmpty(factories)}" class="error-message">
+          <p>You need to create a factory first</p>
+          <a th:href="@{/factory/registration}" class="btn">Create Factory</a>
         </div>
 
-        <a th:href="@{/article/create}" class="btn">New Article</a>
+        <div th:unless="${#lists.isEmpty(factories)}">
+          <a th:href="@{/article/create}" class="btn">New Article</a>
+        </div>
 
-        <!-- Table to display articles -->
-        <div th:if="${not #lists.isEmpty(articles)}">
-          <table
-            th:if="${not #lists.isEmpty(articles)}"
-            class="table article-list-table"
-          >
+        <!-- Resto del contenido -->
+
+        <div
+          th:if="${articles != null and !articles.empty}"
+          class="list-content"
+        >
+          <table>
             <thead>
               <tr>
-                <!-- <th>ID</th> -->
+                <th>Image</th>
                 <th>Number</th>
                 <th>Name</th>
                 <th>Description</th>
@@ -51,6 +51,20 @@
             </thead>
             <tbody>
               <tr th:each="article : ${articles}">
+                <td>
+                  <img
+                    th:if="${article.image != null}"
+                    th:src="@{/images/article/{id}(id=${article.articleId})}"
+                    alt="Article image"
+                    class="article-thumbnail"
+                  />
+                  <img
+                    th:if="${article.image == null}"
+                    th:src="@{/images/default-product.png}"
+                    alt="Default product"
+                    class="article-thumbnail"
+                  />
+                </td>
                 <td th:text="${article.articleNumber}"></td>
                 <td th:text="${article.articleName}"></td>
                 <td th:text="${article.articleDescription}"></td>
@@ -65,6 +79,7 @@
                   <form
                     th:action="@{/article/delete/{id}(id=${article.articleId})}"
                     method="POST"
+                    style="display: inline"
                   >
                     <button
                       type="submit"
@@ -79,17 +94,20 @@
             </tbody>
           </table>
         </div>
-        <div th:if="${#lists.isEmpty(articles)}" class="empty-state">
-          <p>
-            No articles found. Click the button above to add your first article.
-          </p>
+
+        <div
+          th:if="${articles == null or articles.empty}"
+          class="empty-message"
+        >
+          <p>No articles found in the system</p>
         </div>
+
         <a th:href="@{/start}" class="btn">Back</a>
       </section>
     </main>
 
     <footer>
-      <p>&copy; 2025 The House of Electricity. All rights reserved.</p>
+      <p>&copy; 2025 ChipocludApps. All rights reserved.</p>
     </footer>
   </body>
 </html>

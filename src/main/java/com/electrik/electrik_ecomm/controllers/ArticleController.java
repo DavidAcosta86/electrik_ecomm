@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.electrik.electrik_ecomm.entities.Article;
+import com.electrik.electrik_ecomm.entities.Factory;
 import com.electrik.electrik_ecomm.exceptions.MyException;
 import com.electrik.electrik_ecomm.services.ArticleService;
 import com.electrik.electrik_ecomm.services.FactoryService;
@@ -18,6 +19,7 @@ import com.electrik.electrik_ecomm.services.FactoryService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/article")
@@ -30,11 +32,20 @@ public class ArticleController {
 
     @GetMapping("/list")
     public String ListArticles(ModelMap model) {
-        List<Article> articles = articleService.ListAllArticlesOrderByNumber();
-        model.addAttribute("articles", articles);
 
-        if (articles.isEmpty()) {
-            model.addAttribute("info", "No articles found in the catalog. Add some articles to get started!");
+        try {
+            List<Article> articles = articleService.ListAllArticlesOrderByNumber();
+            List<Factory> factories = factoryService.ListAllFactories();
+
+            model.addAttribute("articles", articles);
+            model.addAttribute("factories", factories);
+
+            if (articles.isEmpty()) {
+                model.addAttribute("info", "No articles found in the catalog. Add some articles to get started!");
+            }
+
+        } catch (Exception e) {
+            // TODO: handle exception
         }
 
         return "articlelist";
@@ -47,10 +58,11 @@ public class ArticleController {
     }
 
     @PostMapping("/create")
-    public String saveArticle(@RequestParam String articleName, @RequestParam String articleDescription,
+    public String saveArticle(@RequestParam String articleName,
+            @RequestParam String articleDescription,
             @RequestParam String factory_id,
+            @RequestParam MultipartFile articleImage,
             ModelMap model) throws MyException {
-        System.out.println(factory_id);
         try {
             UUID factoryUUID = stringToUUID(factory_id);
 
@@ -58,15 +70,13 @@ public class ArticleController {
                 throw new MyException("Factory cannot be null!");
             }
 
-            articleService.CreateArticle(articleName, articleDescription, factoryUUID);
-            model.put("sucess", "Article created successfully");
+            articleService.CreateArticle(articleName, articleDescription, factoryUUID, articleImage);
+            model.put("success", "Article created successfully");
             return "redirect:/article/list";
         } catch (MyException e) {
             model.put("error", e.getMessage());
             model.addAttribute("factories", factoryService.ListAllFactories());
-            System.out.println(e.getMessage());
             return "redirect:/article/create";
-
         }
     }
 

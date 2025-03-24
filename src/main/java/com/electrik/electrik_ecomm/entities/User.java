@@ -11,6 +11,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -32,6 +34,10 @@ public class User {
 
     @Column(name = "last_name")
     private String lastName;
+
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    private Image picture;
 
     @Column(name = "password")
     private String password;

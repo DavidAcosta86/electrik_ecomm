@@ -2,6 +2,7 @@ package com.electrik.electrik_ecomm.services;
 
 import com.electrik.electrik_ecomm.entities.Article;
 import com.electrik.electrik_ecomm.entities.Factory;
+import com.electrik.electrik_ecomm.entities.Image;
 import com.electrik.electrik_ecomm.exceptions.MyException;
 import com.electrik.electrik_ecomm.repositories.ArticleRepository;
 import com.electrik.electrik_ecomm.repositories.FactoryRepository;
@@ -17,6 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ArticleService {
@@ -25,6 +27,8 @@ public class ArticleService {
     private ArticleRepository articleRepository;
     @Autowired
     private FactoryRepository factoryRepository;
+    @Autowired
+    private ImageService imageService;
 
     private AtomicInteger atomicInteger;
 
@@ -34,18 +38,23 @@ public class ArticleService {
     }
 
     @Transactional
-    public void CreateArticle(String articleName, String articleDescription, UUID factory_id) throws MyException {
-
+    public void CreateArticle(String articleName, String articleDescription, UUID factory_id, MultipartFile file)
+            throws MyException {
         validateArticle(articleName, articleDescription, factory_id);
         Factory factory = factoryRepository.getReferenceById(factory_id);
+
         Article article = new Article();
         article.setArticleName(articleName);
         article.setArticleDescription(articleDescription);
         article.setFactory(factory);
         article.setArticleNumber(atomicInteger.incrementAndGet());
 
-        articleRepository.save(article);
+        if (file != null && !file.isEmpty()) {
+            Image image = imageService.SaveImage(file);
+            article.setImage(image);
+        }
 
+        articleRepository.save(article);
     }
 
     @Transactional

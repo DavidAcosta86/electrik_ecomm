@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>User List</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <h1>Electri-K</h1>
+        <a href="/start" class="btn">Panel</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="list-container">
+        <h2>User List</h2>
+
+        <div th:if="${users != null and !users.empty}" class="list-content">
+          <table>
+            <thead>
+              <tr>
+                <th>Profile</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="user : ${users}">
+                <td>
+                  <img
+                    th:if="${user.picture != null}"
+                    th:src="@{/images/user/{id}(id=${user.id})}"
+                    alt="Profile"
+                    class="profile-thumbnail"
+                  />
+                  <img
+                    th:if="${user.picture == null}"
+                    th:src="@{/images/default-avatar.png}"
+                    alt="Default profile"
+                    class="profile-thumbnail"
+                  />
+                </td>
+                <td th:text="${user.name + ' ' + user.lastName}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.role}"></td>
+                <td>
+                  <a th:href="@{/user/edit/{id}(id=${user.id})}" class="btn"
+                    >Edit</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div th:if="${users == null or users.empty}" class="empty-message">
+          <p>No users found in the system</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 ChipocludApps. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

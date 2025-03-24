@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.electrik.electrik_ecomm.exceptions.MyException;
 import com.electrik.electrik_ecomm.services.UserService;
@@ -31,10 +32,11 @@ public class PortalController {
     }
 
     @PostMapping("register")
-    public String userRegister(@RequestParam String name, String lastName, String email, String password,
+    public String userRegister(@RequestParam String name, String lastName, MultipartFile file, String email,
+            String password,
             String password2, ModelMap model) {
         try {
-            userService.CreateUser(email, name, lastName, password, password2);
+            userService.CreateUser(email, name, lastName, file, password, password2);
             model.put("succes", "User created Succesfully!");
             return "login";
         } catch (MyException e) {

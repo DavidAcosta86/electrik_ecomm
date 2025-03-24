@@ -174,12 +174,12 @@ main {
 
 .article-list-table th:nth-child(4),
 .article-list-table td:nth-child(4) {
-  width: 20%; /* Factory column */
+  width: 15%; /* Role column */
 }
 
 .article-list-table th:nth-child(5),
 .article-list-table td:nth-child(5) {
-  width: 10%; /* Actions column */
+  width: 15%; /* Actions column */
 }
 
 /* Body style adjustments */
@@ -273,4 +273,61 @@ footer {
 .factory-list-table form {
   display: inline-block;
   margin: 0;
+}
+
+/* Profile thumbnail style */
+.profile-thumbnail {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #0056b3;
+}
+
+/* User list table styles */
+.list-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.list-content th,
+.list-content td {
+  padding: 12px 15px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.list-content th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  border-bottom: 2px solid #0056b3;
+}
+
+.list-content td {
+  vertical-align: middle;
+}
+
+.list-content tr:hover {
+  background-color: #f8f9fa;
+}
+
+.list-container {
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 1200px;
+}
+
+/* Article thumbnail style */
+.article-thumbnail {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }

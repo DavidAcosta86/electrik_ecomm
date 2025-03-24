@@ -2,6 +2,7 @@ package com.electrik.electrik_ecomm.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,7 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.electrik.electrik_ecomm.entities.Image;
 import com.electrik.electrik_ecomm.entities.User;
 import com.electrik.electrik_ecomm.enums.Roles;
 import com.electrik.electrik_ecomm.exceptions.MyException;
@@ -28,8 +31,12 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ImageService imageService;
+
     @Transactional
-    public void CreateUser(String email, String name, String LastName, String password, String password2)
+    public void CreateUser(String email, String name, String LastName, MultipartFile file, String password,
+            String password2)
             throws MyException {
 
         ValidateUser(email, name, LastName, password, password2);
@@ -38,6 +45,8 @@ public class UserService implements UserDetailsService {
         newUser.setEmail(email);
         newUser.setName(name);
         newUser.setLastName(LastName);
+        Image image = imageService.SaveImage(file);
+        newUser.setPicture(image);
         newUser.setPassword(new BCryptPasswordEncoder().encode(password));
         newUser.setRole(Roles.USER);
         ;
@@ -82,6 +91,11 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
+    @Transactional
+    public List<User> ListAllUsers() {
+        return userRepository.findAll();
+    }
+
     public void ValidateUser(String email, String name, String LastName, String password, String password2)
             throws MyException {
         if (name == null || name.trim().isEmpty()) {
@@ -106,6 +120,15 @@ public class UserService implements UserDetailsService {
             throw new MyException("The e-mail is already registered");
         }
 
+    }
+
+    @Transactional
+    public User getOne(String id) throws MyException {
+        try {
+            return userRepository.findById(UUID.fromString(id)).orElse(null);
+        } catch (IllegalArgumentException e) {
+            throw new MyException("Invalid UUID format");
+        }
     }
 
     @Override
