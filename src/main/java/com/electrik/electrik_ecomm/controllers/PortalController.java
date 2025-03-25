@@ -21,7 +21,7 @@ public class PortalController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/")
+    @GetMapping("/index")
     public String index() {
         return "index";
     }

@@ -10,6 +10,7 @@
     <header>
       <nav>
         <h1>Electri-K</h1>
+        <div>Bienvenido <span sec:authentication="name"></span>!</div>
       </nav>
     </header>
 
@@ -22,7 +23,12 @@
           <p>
             You need to create at least one factory before creating articles.
           </p>
-          <a th:href="@{/factory/registration}" class="btn">Create Factory</a>
+          <a
+            sec:authorize="hasRole('ADMIN')"
+            th:href="@{/factory/registration}"
+            class="btn"
+            >Create Factory</a
+          >
         </div>
 
         <!-- Mostrar formulario solo si hay fábricas -->

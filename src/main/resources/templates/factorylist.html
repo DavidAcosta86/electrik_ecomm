@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,6 +20,9 @@
     <header>
       <nav>
         <h1>Electri-k</h1>
+        <div align="right">
+          Bienvenido <span sec:authentication="name"></span> !
+        </div>
         <a href="/start" class="btn">Panel</a>
       </nav>
     </header>
@@ -32,7 +39,12 @@
           There was an error!
         </div>
 
-        <a th:href="@{/factory/registration}" class="btn">New Factory</a>
+        <a
+          sec:authorize="hasRole('ADMIN')"
+          th:href="@{/factory/registration}"
+          class="btn"
+          >New Factory</a
+        >
 
         <!-- Table to display factories -->
         <table class="factory-list-table">
@@ -40,18 +52,18 @@
             <tr>
               <!-- <th>ID</th> to show ID -->
               <th>Name</th>
-              <th>Actions</th>
+              <th sec:authorize="hasRole('ADMIN')">Actions</th>
             </tr>
           </thead>
-          <tbody th:each="factory : ${factories}">
+          <tbody align="center" th:each="factory : ${factories}">
             <tr>
               <!-- <td th:text="${factory.id}"></td>  to show the id-->
               <td
                 style="font-size: larger"
-                align="left"
+                align="center"
                 th:text="${factory.factoryName}"
               ></td>
-              <td>
+              <td sec:authorize="hasRole('ADMIN')">
                 <!-- Edit icon -->
                 <a
                   th:href="@{/factory/modify/__${factory.id}__}"

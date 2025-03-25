@@ -1,5 +1,6 @@
 package com.electrik.electrik_ecomm;
 
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 
 @Configuration
 public class WebSecurity {
@@ -35,10 +37,18 @@ public class WebSecurity {
                 .csrf(csrf -> csrf.disable())
 
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/css/**", "*/**", "/js/**", "/img/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
                         .requestMatchers("/", "/login", "/registro", "/registrar", "/index", "/loginprocess",
                                 "/userregister")
                         .permitAll()
+                        .requestMatchers("/article/delete/**", "/article/modify/**", "/article/create/**")
+                        .hasRole("ADMIN")
+                        .requestMatchers("factory/registration/**", "factory/register/**", "factory/modify/**",
+                                "factory/delete/**")
+                        .hasRole("ADMIN")
+                        .requestMatchers("user/edit/**", "user/update/**", "user/list/**",
+                                "user/delete/**")
+                        .hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/factory/delete/**", "/factory/delete", "/article/**")
                         .authenticated()
 
@@ -56,5 +66,13 @@ public class WebSecurity {
                         .logoutSuccessUrl("/login")
                         .permitAll());
         return http.build();
+    }
+
+    @Configuration
+    public class ThymeleafConfig {
+        @Bean
+        public SpringSecurityDialect securityDialect() {
+            return new SpringSecurityDialect();
+        }
     }
 }
