@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,6 +18,8 @@
     <header>
       <nav>
         <h1>Electri-k</h1>
+        <div>Bienvenido <span sec:authentication="name"></span>!</div>
+
         <a href="/start" class="btn">Panel</a>
       </nav>
     </header>
@@ -46,7 +52,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Factory</th>
-                <th>Actions</th>
+                <th sec:authorize="hasRole('ADMIN')">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -70,25 +76,27 @@
                 <td th:text="${article.articleDescription}"></td>
                 <td th:text="${article.factory.factoryName}"></td>
                 <td>
-                  <a
-                    th:href="@{/article/modify/{id}(id=${article.articleId})}"
-                    class="btn btn-edit"
-                  >
-                    <i class="fas fa-edit"></i> Edit
-                  </a>
-                  <form
-                    th:action="@{/article/delete/{id}(id=${article.articleId})}"
-                    method="POST"
-                    style="display: inline"
-                  >
-                    <button
-                      type="submit"
-                      class="btn btn-delete"
-                      onclick="return confirm('Are you sure?')"
+                  <div sec:authorize="hasRole('ADMIN')">
+                    <a
+                      th:href="@{/article/modify/{id}(id=${article.articleId})}"
+                      class="btn btn-edit"
                     >
-                      <i class="fas fa-trash-alt"></i> Delete
-                    </button>
-                  </form>
+                      <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <form
+                      th:action="@{/article/delete/{id}(id=${article.articleId})}"
+                      method="POST"
+                      style="display: inline"
+                    >
+                      <button
+                        type="submit"
+                        class="btn btn-delete"
+                        onclick="return confirm('Are you sure?')"
+                      >
+                        <i class="fas fa-trash-alt"></i> Delete
+                      </button>
+                    </form>
+                  </div>
                 </td>
               </tr>
             </tbody>

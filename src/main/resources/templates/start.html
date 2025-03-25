@@ -10,19 +10,26 @@
     <header>
       <nav>
         <h1>Electri-k</h1>
+        <div>Bienvenido <span sec:authentication="name"></span>!</div>
         <div class="nav-buttons">
           <a href="/factory/listfactories" class="btn">List factories</a>
           <a href="/article/list" class="btn">List articles</a>
-          <a href="/user/list" class="btn">List users</a>
+          <a sec:authorize="hasRole('ADMIN')" href="/user/list" class="btn"
+            >List users</a
+          >
           <a href="login" class="btn logout">Logout</a>
         </div>
       </nav>
     </header>
 
     <main>
-      <section class="welcome">
+      <section sec:authorize="hasRole('ADMIN')" class="welcome">
         <h2>Welcome to your panel</h2>
         <p>Access options to manage factories and articles.</p>
+      </section>
+      <section sec:authorize="hasRole('USER')" class="welcome">
+        <h2 style="font-size: 60px">Welcome to our catalog</h2>
+        <p>Check out our products and factories!</p>
       </section>
     </main>
 
