@@ -38,9 +38,9 @@ public class UserService implements UserDetailsService {
     public void CreateUser(String email, String name, String LastName, MultipartFile file, String password,
             String password2)
             throws MyException {
-
         ValidateUser(email, name, LastName, password, password2);
 
+        System.out.println("paso la validacion");
         User newUser = new User();
         newUser.setEmail(email);
         newUser.setName(name);
@@ -49,9 +49,9 @@ public class UserService implements UserDetailsService {
         newUser.setPicture(image);
         newUser.setPassword(new BCryptPasswordEncoder().encode(password));
         newUser.setRole(Roles.USER);
-        ;
 
         userRepository.save(newUser); // Save the new user to the repository
+        System.out.println("se creo el user?");
     }
 
     @Transactional

@@ -31,7 +31,7 @@ public class ArticleController {
     private FactoryService factoryService;
 
     @GetMapping("/list")
-    public String ListArticles(ModelMap model) {
+    public String ListArticles(ModelMap model) throws MyException {
 
         try {
             List<Article> articles = articleService.ListAllArticlesOrderByNumber();
@@ -44,8 +44,8 @@ public class ArticleController {
                 model.addAttribute("info", "No articles found in the catalog. Add some articles to get started!");
             }
 
-        } catch (Exception e) {
-            // TODO: handle exception
+        } catch (MyException e) {
+            throw new MyException(e.getMessage());
         }
 
         return "articlelist";

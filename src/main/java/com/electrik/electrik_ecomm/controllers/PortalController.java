@@ -28,16 +28,19 @@ public class PortalController {
 
     @GetMapping("userregister")
     public String register() {
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!");
         return "userregister";
     }
 
-    @PostMapping("register")
+    @PostMapping("/register")
     public String userRegister(@RequestParam String name, String lastName, MultipartFile file, String email,
             String password,
             String password2, ModelMap model) {
+        System.out.println("despues de entrar al servicio");
         try {
             userService.CreateUser(email, name, lastName, file, password, password2);
             model.put("succes", "User created Succesfully!");
+            System.out.println("llego acá");
             return "login";
         } catch (MyException e) {
             model.put("error", e.getMessage());
